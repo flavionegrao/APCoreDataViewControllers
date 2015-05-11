@@ -1,0 +1,19 @@
+PODS:
+  - APCoreDataViewControllers (0.1.0)
+  - MBProgressHUD (0.8)
+
+DEPENDENCIES:
+  - APCoreDataViewControllers (from `../APCoreDataViewControllers/`)
+  - MBProgressHUD (from `https://github.com/jdg/MBProgressHUD.git`)
+
+EXTERNAL SOURCES:
+  APCoreDataViewControllers:
+    :path: ../APCoreDataViewControllers/
+  MBProgressHUD:
+    :git: https://github.com/jdg/MBProgressHUD.git
+
+SPEC CHECKSUMS:
+  APCoreDataViewControllers: 5171c7d348857de6d7b52c958d4372b85f7eced6
+  MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
+
+COCOAPODS: 0.32.1
