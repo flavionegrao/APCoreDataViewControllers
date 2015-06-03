@@ -48,14 +48,14 @@
  This is the method called whenever a cell is Selected.
  @param block the block to be called
  */
-- (void) setViewDidSelectCallBack: (void (^) (id object)) block;
+@property (nonatomic,copy) void (^viewDidSelectCallBack) (id object);
 
 
 /**
  This is the method called whenever a cell is Deselected.
  @param block the block to be called
  */
-- (void) setViewDidDeselectCallBack: (void (^) (id object)) block;
+@property (nonatomic,copy) void (^viewDidDeselectCallBack) (id object);
 
 
 @end

@@ -11,9 +11,6 @@
 
 @interface APSelectCoreDataTVC ()
 
-@property (nonatomic,copy) void (^viewDidSelectCallBack) (id object);
-@property (nonatomic,copy) void (^viewDidDeselectCallBack) (id object);
-
 @property (nonatomic,strong) NSMutableSet* mutableSelectedObjects;
 
 @end
