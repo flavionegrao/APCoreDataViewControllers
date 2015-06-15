@@ -60,7 +60,7 @@ NSString* const APCoreDataTVCNotificationRefresh = @"com.apetis.apChatController
 - (void) fetch {
     
     if (self.frc) {
-        //self.isLoading = YES;
+        self.isLoading = YES;
         self.suspendAutomaticTrackingOfChangesInManagedObjectContext = YES;
         
         //[self.frc.managedObjectContext performBlock:^{
@@ -73,7 +73,7 @@ NSString* const APCoreDataTVCNotificationRefresh = @"com.apetis.apChatController
                 //[[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     self.suspendAutomaticTrackingOfChangesInManagedObjectContext = NO;
                     [self.tableView reloadData];
-                   // self.isLoading = NO;
+                    self.isLoading = NO;
                 //}];
             }
         //}];
@@ -126,7 +126,7 @@ NSString* const APCoreDataTVCNotificationRefresh = @"com.apetis.apChatController
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     
-     //self.isLoading = YES;
+     self.isLoading = YES;
     
     if (!self.suspendAutomaticTrackingOfChangesInManagedObjectContext) {
 
@@ -211,7 +211,7 @@ NSString* const APCoreDataTVCNotificationRefresh = @"com.apetis.apChatController
     }
     
     //
-    //self.isLoading = NO;
+    self.isLoading = NO;
 }
 
 @end
