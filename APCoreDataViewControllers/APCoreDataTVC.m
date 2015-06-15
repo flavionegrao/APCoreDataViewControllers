@@ -12,38 +12,19 @@ NSString* const APCoreDataTVCNotificationRefresh = @"com.apetis.apChatController
 /// Reservar selection depois que a tableview sofrer update
 @property (nonatomic,strong) NSIndexPath* currentSelectionIndexPath;
 
-//@property (assign,nonatomic) BOOL isLoading;
-
-@property (nonatomic, strong) NSOperationQueue* fetchQueue;
-
 @end
+
 
 @implementation APCoreDataTVC
 
 
 #pragma mark - View LifeCycle
 
-- (void) dealloc {
-    //[self.fetchQueue cancelAllOperations];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-
 - (void) viewDidLoad {
 
     [super viewDidLoad];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetch) name:APCoreDataTVCNotificationRefresh object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetch) name:UIApplicationDidBecomeActiveNotification object:nil];
     
-}
-
-
-- (void) viewDidAppear:(BOOL)animated {
-
-    [super viewDidAppear:animated];
-    
-    if (self.frc && self.isLoading == NO) {
-        
+    if (self.frc /*&& self.isLoading == NO*/) {
         if (!self.frc.fetchedObjects) {
             [self fetch];
         }
@@ -79,27 +60,23 @@ NSString* const APCoreDataTVCNotificationRefresh = @"com.apetis.apChatController
 - (void) fetch {
     
     if (self.frc) {
-        self.isLoading = YES;
+        //self.isLoading = YES;
         self.suspendAutomaticTrackingOfChangesInManagedObjectContext = YES;
         
-        self.fetchQueue = [NSOperationQueue new];
-        self.fetchQueue.maxConcurrentOperationCount = 1;
-        self.fetchQueue.name = @"Fetching Queue";
-        
-        [self.fetchQueue addOperationWithBlock:^{
-        [self.frc.managedObjectContext performBlock:^{
+        //[self.frc.managedObjectContext performBlock:^{
             NSError *error;
+            
             if (![self.frc performFetch:&error]) {
                 NSLog(@"NSFetchedResultsController error: %@", error);
+            
             } else {
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                //[[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     self.suspendAutomaticTrackingOfChangesInManagedObjectContext = NO;
                     [self.tableView reloadData];
-                    self.isLoading = NO;
-                }];
+                   // self.isLoading = NO;
+                //}];
             }
-        }];
-        }];
+        //}];
     }
 }
 
@@ -149,7 +126,7 @@ NSString* const APCoreDataTVCNotificationRefresh = @"com.apetis.apChatController
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     
-     self.isLoading = YES;
+     //self.isLoading = YES;
     
     if (!self.suspendAutomaticTrackingOfChangesInManagedObjectContext) {
 
@@ -234,7 +211,7 @@ NSString* const APCoreDataTVCNotificationRefresh = @"com.apetis.apChatController
     }
     
     //
-    self.isLoading = NO;
+    //self.isLoading = NO;
 }
 
 @end

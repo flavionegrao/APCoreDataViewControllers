@@ -20,24 +20,8 @@
 @end
 
 
+
 @implementation APListCoreDataTVC
-
-#pragma mark - View Lifecycle
-
-- (void) viewDidLoad {
-    
-    [super viewDidLoad];
-    
-    if (self.loadingText) {
-        if (self.tableView.style == UITableViewStylePlain) {
-            self.tableView.dataSource = self.loadingDataSource;
-            [self.tableView reloadData];
-        } else {
-            self.tableView.backgroundView = [self loadingBackgroundView];
-        }
-    }
-}
-
 
 #pragma mark - Getter and Setters
 
@@ -64,11 +48,13 @@
     _emptyListText = emptyListText;
     self.emptyDataSource.placeHolderText = emptyListText;
 }
-
+   
 
 - (void) setIsLoading:(BOOL)isLoading {
     
     [super setIsLoading:isLoading];
+    
+    self.tableView.userInteractionEnabled = !isLoading;
     
     if (self.tableView.style == UITableViewStylePlain) {
         
@@ -101,10 +87,7 @@
     
     if (self.isLoading) {
         
-        if ([self.frc.fetchedObjects count] > 0) {
-            return self;
-            
-        } else if (self.loadingText) {
+        if (self.loadingText) {
             return self.loadingDataSource;
             
         } else {
@@ -122,9 +105,6 @@
     }
 }
 
-//- (BOOL) isTheRealDataSourceEmpty {
-//    return ([self.frc.sections[0] numberOfObjects] > 0);
-//}
 
 - (UIView*) emptyTableBackgroundView {
     
@@ -186,14 +166,6 @@
 
 
 #pragma mark - TableView Datasource
-
-- (BOOL) tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (tableView.dataSource == self) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
