@@ -167,6 +167,14 @@
 
 #pragma mark - TableView Datasource
 
+- (BOOL) tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView.dataSource == self) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
