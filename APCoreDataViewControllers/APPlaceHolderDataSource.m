@@ -7,13 +7,7 @@
 //
 
 #import "APPlaceHolderDataSource.h"
-
 #import "APPlaceHolderCell.h"
-
-@interface APPlaceHolderDataSource()
-
-
-@end
 
 
 @implementation APPlaceHolderDataSource

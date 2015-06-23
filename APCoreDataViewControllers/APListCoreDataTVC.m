@@ -10,12 +10,28 @@
 #import "APPlaceHolderDataSource.h"
 
 
+@interface APTransitionDataSource : NSObject <UITableViewDataSource>
+@end
+@implementation APTransitionDataSource
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {return 0;}
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section { return 0;}
+- (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {return nil;};
+@end
+
+
 @interface APListCoreDataTVC()
 
 @property (strong, nonatomic) UILabel* emptyTableLabel;
 
 @property (strong, nonatomic) APPlaceHolderDataSource* loadingDataSource;
 @property (strong, nonatomic) APPlaceHolderDataSource* emptyDataSource;
+
+/**
+ * We use this datasource to empty the tableview placeholders cells before changing
+ * the datasource back to the real datasource. The reason is that without this approach the 
+ * subclasses can't use didEndDisplayCell correctly as it will be a APPlaceHolderCell
+ */
+@property (strong, nonatomic) APTransitionDataSource* transitionDataSource;
 
 @end
 
@@ -26,7 +42,6 @@
 #pragma mark - Getter and Setters
 
 - (APPlaceHolderDataSource*) loadingDataSource {
-    
     if (!_loadingDataSource) {
         _loadingDataSource = [[APPlaceHolderDataSource alloc]initWithPlaceHolerText:self.loadingText];
         _loadingDataSource.showActivityIndicator = YES;
@@ -36,11 +51,18 @@
 
 
 - (APPlaceHolderDataSource*) emptyDataSource {
-    
     if (!_emptyDataSource) {
         _emptyDataSource = [[APPlaceHolderDataSource alloc]initWithPlaceHolerText:self.emptyListText];
     }
     return _emptyDataSource;
+}
+
+
+- (APTransitionDataSource*) transitionDataSource {
+    if (!_transitionDataSource) {
+        _transitionDataSource = [APTransitionDataSource new];
+    }
+    return _transitionDataSource;
 }
 
 
@@ -61,8 +83,11 @@
         id<UITableViewDataSource> newDataSource = [self newDataSource];
         id<UITableViewDataSource> oldDataSource = self.tableView.dataSource;
         
-        self.tableView.dataSource = newDataSource;
         if (oldDataSource != newDataSource) {
+            self.tableView.dataSource = self.transitionDataSource;
+            [self.tableView reloadData];
+           
+            self.tableView.dataSource = newDataSource;
             [self.tableView reloadData];
         }
     
