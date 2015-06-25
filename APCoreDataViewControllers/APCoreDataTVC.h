@@ -52,5 +52,7 @@ extern NSString* const APCoreDataTVCNotificationRefresh;
  */
 @property (assign,nonatomic) BOOL isLoading;
 
+- (void) fetch;
+
 
 @end
