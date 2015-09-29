@@ -192,8 +192,10 @@ NSString* const APCoreDataTVCNotificationRefresh = @"com.apetis.apChatController
                     break;
                     
                 case NSFetchedResultsChangeMove:
-                    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    if(![indexPath isEqual:newIndexPath]) { // iOS 9 beta fix
+                        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    }
                     break;
             }
         }
